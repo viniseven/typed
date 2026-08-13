@@ -1,0 +1,31 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id String @id @default(uuid())
+  firstName String
+  lastName String
+  username String @unique
+  email String @unique
+  password String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts Post[]
+}
+
+model Post {
+  id String @id @default(uuid())
+  idAuthor String
+  title String
+  content String
+  category String
+  createdAt DateTime @default(now())
+  author User @relation(fields: [idAuthor], references: [id])
+}
