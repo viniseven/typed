@@ -28,7 +28,9 @@ export const createUserSchema = z.object({
       /^[a-zA-Z0-9]+$/,
       "O nome de usuário deve conter apenas letras e números, sem acentos, espaços ou caracteres especiais."
     ),
-  email: z.email("Endereço de email é obrigatório"),
+  email: z
+    .email("Endereço de email inválido")
+    .min(1, "O endereço de email é obrigatório"),
   password: z
     .string()
     .min(8, "A senha deve ter no mínimo 8 caracteres.")
