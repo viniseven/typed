@@ -6,10 +6,15 @@ const userModel = new UserModel();
 
 export class UserService {
   async createUser(data: CreateUserSchema) {
-    const findUserExist = await userModel.findUserWithEmail(data.email);
+    const { email, username } = data;
+
+    const findUserExist = await userModel.findUserWithEmailAndUsername(
+      email,
+      username
+    );
 
     if (findUserExist) {
-      throw new Error("Email já utilizado por outro usuário");
+      throw new Error("Email ou username já utilizado por outro usuário");
     }
     const hashedPassword = await bcrypt.hash(data.password, 10);
 

@@ -2,10 +2,13 @@ import { prisma } from "../lib/prisma.ts";
 import type { User, Prisma } from "../../generated/prisma/client.ts";
 
 export class UserModel {
-  async findUserWithEmail(email: User["email"]) {
-    return prisma.user.findUnique({
+  async findUserWithEmailAndUsername(
+    email: User["email"],
+    username: User["username"]
+  ) {
+    return prisma.user.findFirst({
       where: {
-        email
+        OR: [{ email }, { username }]
       }
     });
   }
@@ -13,6 +16,14 @@ export class UserModel {
   async createUser(data: Prisma.UserCreateInput) {
     return prisma.user.create({
       data
+    });
+  }
+
+  async findByUsername(username: User["username"]) {
+    return prisma.user.findUnique({
+      where: {
+        username
+      }
     });
   }
 }
