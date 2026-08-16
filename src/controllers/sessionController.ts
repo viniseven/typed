@@ -1,20 +1,18 @@
-import { type Request, type Response } from "express";
-import { createUserSchema } from "../schemas/user.ts";
-import { UserService } from "../services/userService.ts";
+import type { Request, Response } from "express";
+import { createAuthUserSchema } from "../schemas/auth.ts";
+import { AuthService } from "../services/authService.ts";
 import { ZodError } from "zod";
 
-const userService = new UserService();
+const authService = new AuthService();
 
-class UserController {
+class SessionController {
   async create(request: Request, response: Response) {
     try {
-      const validatedDataWithZod = createUserSchema.parse(request.body);
+      const validatedDataWithZod = createAuthUserSchema.parse(request.body);
 
-      await userService.createUser(validatedDataWithZod);
+      const payloadUser = await authService.createSession(validatedDataWithZod);
 
-      return response
-        .status(201)
-        .json({ message: "Usuário cadastrado com sucesso" });
+      return response.status(201).json({ payloadUser });
     } catch (error) {
       if (error instanceof ZodError) {
         return response.status(400).json({
@@ -33,4 +31,4 @@ class UserController {
   }
 }
 
-export default UserController;
+export default SessionController;
