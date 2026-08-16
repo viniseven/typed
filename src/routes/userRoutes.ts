@@ -1,11 +1,9 @@
 import { Router } from "express";
+import UserController from "../controllers/userController.ts";
 
 const userRoutes = Router();
+const userController = new UserController();
 
-userRoutes.post("/resgister", (req, res) => {
-  res.send("User registered");
-});
+userRoutes.post("/signup", userController.create);
 
-userRoutes.get("/login", (req, res) => {
-  res.send("Realizar login");
-});
+export default userRoutes;
