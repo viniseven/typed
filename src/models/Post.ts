@@ -13,4 +13,10 @@ export class PostModel {
       }
     });
   }
+
+  async createPost(data: Prisma.PostUncheckedCreateInput) {
+    return prisma.post.create({
+      data
+    });
+  }
 }

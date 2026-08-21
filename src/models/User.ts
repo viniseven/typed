@@ -26,4 +26,12 @@ export class UserModel {
       }
     });
   }
+
+  async findByIdUser(id: User["id"]) {
+    return prisma.user.findUnique({
+      where: {
+        id
+      }
+    });
+  }
 }
