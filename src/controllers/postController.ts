@@ -6,11 +6,11 @@ import { ZodError } from "zod";
 const postService = new PostService();
 
 class PostController {
-  async index(response: Response) {
+  async index(request: Request, response: Response) {
     try {
-      await postService.listAllPost();
+      const getAllPostsData = await postService.listAllPost();
 
-      return response.status(200);
+      return response.status(200).json(getAllPostsData);
     } catch (error) {
       if (error instanceof Error) {
         return response.status(409).json({
